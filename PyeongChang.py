@@ -19,5 +19,14 @@ def get_session_list():
 	res = req.json()
 	return res
 
-res = get_session_list()
-print res
+def get_session_info(session_code):
+	url = "https://ticketapi.pyeongchang2018.com/api/Session/GetSession/?Culture=ko-kr&SessionCode=" + session_code
+	req = requests.get(url)
+	res = req.json()
+	return res	
+
+session_list = get_session_list()
+for session in session_list:
+	session_code = session["SessionCode"]
+	session_info = get_session_info(session_code)	
+	print session_info
