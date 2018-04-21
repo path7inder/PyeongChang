@@ -47,6 +47,7 @@ def get_price_list_row(price_list):
 				row.append(str(price[key]).replace("\n","").strip())
 	return row	
 
+rows = []
 session_list = get_session_list()
 for session in session_list:
 	session_code = session["SessionCode"]		
@@ -54,4 +55,12 @@ for session in session_list:
 	price_list = get_price_list(session_code)
 	row = get_session_info_row(session_info)	
 	row.extend(get_price_list_row(price_list))
-	print row
+	rows.append(row)	
+
+import unicodecsv
+file = open("tickets.csv", "wb")
+writer = unicodecsv.writer(file, encoding="utf-8", lineterminator="\n")
+header = ["종목","경기","날짜","시작","종료","장소","경기장","A가격","A잔여","B가격","B잔여","C가격","C잔여","D가격","D잔여"]
+writer.writerow(header)
+for row in rows:	
+	writer.writerow(row)	
